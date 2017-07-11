@@ -6,6 +6,8 @@ description 'Installs/Configures openresty-test'
 long_description 'Installs/Configures openresty-test'
 version '0.1.0'
 
+depends 'openresty', '~> 0.5.6'
+
 # If you upload to Supermarket you should set this so your cookbook
 # gets a `View Issues` link
 # issues_url 'https://github.com/<insert_org_here>/openresty-test/issues' if respond_to?(:issues_url)

@@ -1,0 +1,42 @@
+
+## FILE IS MANAGED BY CHEF
+## DO NOT EDIT DIRECTLY
+################################################################################
+
+server {
+    listen 80 default_server;
+
+    root /var/www;
+
+    location / {
+        default_type 'text/plain';
+
+        content_by_lua_block {
+            ngx.say(ngx.var.arg_a)
+        }
+    }
+
+    location /auth {
+        content_by_lua '
+            local jwt = require "luajwt"
+
+            local args = ngx.req.get_uri_args(1)
+
+            if not args.jwt then
+
+                return ngx.say("Where is token?")
+            end
+
+            local key = "SECRET"
+
+            local ok, err = jwt.decode(args.jwt, key)
+
+            if not ok then
+
+                return ngx.say("Error: ", err)
+            end
+
+            ngx.say("Welcome!")
+        ';
+    }
+}
